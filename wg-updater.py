@@ -15,7 +15,7 @@ USERNAME = config.get('Login', 'email')
 PASSWORD = config.get('Login', 'password')
 LISTING_URL = config.get('Listing', 'listing_url')
 DELAY = int(config.get('Driver', 'delay'))
-CHROMEDRIVER_PATH = '/usr/local/bin/chromedriver' # mac-only
+CHROMEDRIVER_PATH = 'C:/Users/Trial/ChromeDriver/chromedriver'
 
 # Login
 driver = webdriver.Chrome(CHROMEDRIVER_PATH)
@@ -33,25 +33,18 @@ time.sleep(5)
 
 while True:
     # Open listing
+    time.sleep(2)
     driver.get(
         LISTING_URL)
     time.sleep(3)
     contact = driver.find_element_by_class_name('bottom_contact_box')
-    edit = contact.find_element_by_link_text('ANGEBOT BEARBEITEN')
-    edit.send_keys(Keys.TAB)
-    time.sleep(1)
-    edit.click()
+    driver.get('https://www.wg-gesucht.de/angebot-bearbeiten.html?action=update_offer&offer_id=7791998')
     time.sleep(3)
 
-    # Refresh listing
-    btn = driver.find_element_by_class_name('btn-orange') # weiter
-    btn.send_keys(Keys.TAB)
-    time.sleep(2)
+    ## Refresh listing
+    btn = driver.find_element_by_id('update_view_offer') # AKTUALISIEREN
     btn.send_keys(Keys.SPACE)
-    btn = driver.find_element_by_class_name('btn-orange') # Änderungen ubernehmen
-    btn.send_keys(Keys.TAB)
-    time.sleep(2)
-    btn.send_keys(Keys.SPACE)
-    assert 'zehn Minuten' in driver.page_source
+    time.sleep(3)
+    assert '1 Sekunde' in driver.page_source
     print("Reloaded at {}".format(datetime.now().strftime("%Y-%m-%d %H:%M")))
     time.sleep(DELAY)
